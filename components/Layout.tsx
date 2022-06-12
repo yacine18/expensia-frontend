@@ -14,7 +14,6 @@ import React from "react";
 import { useStyles } from "../utils/styles";
 
 const Layout = ({ title, children }: any) => {
-  const classes = useStyles();
   const theme = createTheme({
     typography: {
       h1: {
@@ -38,6 +37,8 @@ const Layout = ({ title, children }: any) => {
       },
     },
   });
+  const classes = useStyles();
+
   return (
     <div>
       <Head>
