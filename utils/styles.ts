@@ -29,10 +29,10 @@ export const useStyles = makeStyles({
     color: "#0fcb03",
   },
   form: {
-      maxWidth: 800,
-      margin: "0 auto",
+    maxWidth: 800,
+    margin: "0 auto",
   },
-  addButton:{
+  addButton: {
     marginBottom: 15,
-  }
+  },
 });
