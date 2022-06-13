@@ -24,13 +24,13 @@ import { useStyles } from "../utils/styles";
 
 const Home: NextPage = () => {
   const classes = useStyles();
-  const router = useRouter()
+  const router = useRouter();
   return (
     <Layout title="Dashboard">
       <div>
         <h1>Dashboard</h1>
-        <Grid container spacing={3} xs={12}>
-          <Grid item md={4}>
+        <Grid container spacing={3}>
+          <Grid item md={4} xs={12}>
             <Card>
               <List>
                 <ListItem>
@@ -39,11 +39,15 @@ const Home: NextPage = () => {
               </List>
             </Card>
           </Grid>
-
           <IncomeExpense />
 
           <Grid item md={12}>
-            <Button onClick={() => router.push("/add-transaction")} className={classes.addButton} variant="contained" color="primary">
+            <Button
+              onClick={() => router.push("/add-transaction")}
+              className={classes.addButton}
+              variant="contained"
+              color="primary"
+            >
               Add Transaction
             </Button>
             <Card>
