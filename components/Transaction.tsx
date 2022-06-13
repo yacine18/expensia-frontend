@@ -6,14 +6,14 @@ const Transaction = ({ transaction }: any) => {
   const classes = useStyles();
   return (
     <>
-      <TableRow key={transaction.id}>
+      <TableRow key={transaction._id}>
         <TableCell>{transaction.label}</TableCell>
         <TableCell
           className={transaction.amount < 0 ? classes.expense : classes.income}
         >
-          ${transaction.amount}
+          ${Number(transaction.amount)}
         </TableCell>
-        <TableCell>{transaction.date}</TableCell>
+        <TableCell>{transaction.createdAt.substring(0, 10)}</TableCell>
       </TableRow>
     </>
   );

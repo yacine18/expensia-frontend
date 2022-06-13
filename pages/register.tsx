@@ -4,6 +4,7 @@ import Layout from "../components/Layout";
 import NextLink from "next/link"
 import { Controller, useForm } from "react-hook-form";
 import { useStyles } from "../utils/styles";
+import dynamic from "next/dynamic";
 
 
 const RegisterScreen = () => {
@@ -134,4 +135,4 @@ const RegisterScreen = () => {
   );
 };
 
-export default RegisterScreen;
+export default dynamic(() => Promise.resolve(RegisterScreen), { ssr: false });

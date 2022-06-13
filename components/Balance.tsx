@@ -1,10 +1,26 @@
 import { Grid, Typography } from "@material-ui/core";
-import React from "react";
-import { data } from "../utils/data";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const Balance = () => {
-  const transactions = data.transactions.map(transaction => transaction.amount)
-  const total = transactions.reduce((a,c) => a+c, 0).toFixed(2)
+  const [data, setData] = useState([]);
+  const transactions = data && data.length > 0 ? data?.map((transaction: any) => Number(transaction.amount)) : null;
+  const total = transactions && transactions.length > 0 ? transactions?.reduce((a: any, c: any) => (a + c), 0) : 0.00;
+
+  useEffect(() => {
+    try {
+      const fetchTransactions = async () => {
+        const { data } = await axios.get(
+          "http://localhost:8800/api/transactions"
+        );
+        setData(data);
+      };
+      fetchTransactions();
+    } catch (error:any) {
+      alert(error.message)
+    }
+  }, []);
+
   return (
     <>
       <Grid container>
@@ -24,3 +40,12 @@ const Balance = () => {
 };
 
 export default Balance;
+
+export async function getServerSideProps() {
+  const { data } = await axios.get("http://localhost:8800/api/transactions");
+  return {
+    props: {
+      data,
+    },
+  };
+}

@@ -11,6 +11,7 @@ import Layout from "../components/Layout";
 import NextLink from "next/link";
 import { Controller, useForm } from "react-hook-form";
 import { useStyles } from "../utils/styles";
+import dynamic from "next/dynamic";
 
 const ForgotPasswordScreen = () => {
   const classes = useStyles();
@@ -75,4 +76,4 @@ const ForgotPasswordScreen = () => {
   );
 };
 
-export default ForgotPasswordScreen;
+export default dynamic(() => Promise.resolve(ForgotPasswordScreen), { ssr: false });;

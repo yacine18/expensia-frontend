@@ -1,13 +1,28 @@
 import { Card, Grid, List, ListItem, Typography } from "@material-ui/core";
-import React from "react";
-import { data } from "../utils/data";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useStyles } from "../utils/styles";
 
 const IncomeExpense = () => {
     const classes = useStyles()
-    const amounts = data.transactions.map(transaction => transaction.amount)
-    const totalExpenses = amounts.filter(amount => amount < 0).reduce((a,c) => a+c, 0).toFixed(2)
-    const totalIncomes = amounts.filter(amount => amount > 0).reduce((a,c) => a+c, 0).toFixed(2)
+    const [data, setData] = useState([]);
+    const amounts = data.map((transaction:any) => Number(transaction.amount))
+    const totalExpenses = amounts.filter(amount => amount < 0).reduce((a,c) => a+c, 0)
+    const totalIncomes = amounts.filter(amount => amount > 0).reduce((a,c) => a+c, 0)
+
+    useEffect(() => {
+      try {
+        const fetchTransactions = async () => {
+          const { data } = await axios.get(
+            "http://localhost:8800/api/transactions"
+          );
+          setData(data);
+        };
+        fetchTransactions();
+      } catch (error:any) {
+        alert(error.message)
+      }
+    }, []);
     
   return (
     <>

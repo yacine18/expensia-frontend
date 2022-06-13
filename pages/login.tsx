@@ -4,6 +4,7 @@ import Layout from "../components/Layout";
 import NextLink from "next/link"
 import { Controller, useForm } from "react-hook-form";
 import { useStyles } from "../utils/styles";
+import dynamic from "next/dynamic";
 
 const LoginScreen = () => {
     const classes = useStyles()
@@ -107,4 +108,4 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default dynamic(() => Promise.resolve(LoginScreen), { ssr: false });;
