@@ -32,7 +32,7 @@ const AddTransactionScreen = () => {
     closeSnackbar();
     try {
       const { data } = await axios.post(
-        `http://localhost:8800/api/transactions`,
+        `https://expensia-backend.herokuapp.com/api/transactions`,
         {
           label,
           amount,
