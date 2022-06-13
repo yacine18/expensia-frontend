@@ -11,7 +11,7 @@ const Balance = () => {
     try {
       const fetchTransactions = async () => {
         const { data } = await axios.get(
-          "http://localhost:8800/api/transactions"
+          "https://expensia-backend.herokuapp.com/api/transactions"
         );
         setData(data);
       };
@@ -40,12 +40,3 @@ const Balance = () => {
 };
 
 export default Balance;
-
-export async function getServerSideProps() {
-  const { data } = await axios.get("http://localhost:8800/api/transactions");
-  return {
-    props: {
-      data,
-    },
-  };
-}

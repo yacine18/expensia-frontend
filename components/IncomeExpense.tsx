@@ -14,7 +14,7 @@ const IncomeExpense = () => {
       try {
         const fetchTransactions = async () => {
           const { data } = await axios.get(
-            "http://localhost:8800/api/transactions"
+            "https://expensia-backend.herokuapp.com/api/transactions"
           );
           setData(data);
         };

@@ -101,7 +101,7 @@ const Home: NextPage = (props) => {
 export default Home;
 
 export async function getServerSideProps() {
-  const { data } = await axios.get("http://localhost:8800/api/transactions");
+  const { data } = await axios.get("https://expensia-backend.herokuapp.com/api/transactions");
   return {
     props: {
       data,
