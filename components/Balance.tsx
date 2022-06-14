@@ -4,8 +4,8 @@ import axios from "axios";
 
 const Balance = () => {
   const [data, setData] = useState([]);
-  const transactions = data && data.length > 0 ? data?.map((transaction: any) => Number(transaction.amount)) : null;
-  const total = transactions && transactions.length > 0 ? transactions?.reduce((a: any, c: any) => (a + c), 0) : 0.00;
+  const transactions = data?.map((transaction: any) => Number(transaction.amount));
+  const total = transactions?.reduce((a: any, c: any) => (a + c), 0).toFixed(2);
 
   useEffect(() => {
     try {

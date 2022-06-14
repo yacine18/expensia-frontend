@@ -30,9 +30,9 @@ const Home: NextPage = (props) => {
   const classes = useStyles();
   const router = useRouter();
 
-  const { state }:any = useContext(Store);
+  const { state }: any = useContext(Store);
   const { userInfo } = state;
-  console.log(userInfo)
+  console.log(userInfo);
 
   const [loading, setLoading] = useState(true);
   const [transactions, setTransactions] = useState([]);
@@ -75,27 +75,33 @@ const Home: NextPage = (props) => {
                   <Typography>
                     <strong>Transactions</strong>
                   </Typography>
-                  <TableContainer>
-                    <Table>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Label</TableCell>
-                          <TableCell>Amount</TableCell>
-                          <TableCell>Date</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {transactions.map((transaction: any) => (
-                          <>
-                            <Transaction
-                              key={transaction._id}
-                              transaction={transaction}
-                            />
-                          </>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
+                  {transactions.length > 0 ? (
+                    <TableContainer>
+                      <Table>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>Label</TableCell>
+                            <TableCell>Amount</TableCell>
+                            <TableCell>Date</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        {
+                          <TableBody>
+                            {transactions.map((transaction: any) => (
+                              <>
+                                <Transaction
+                                  key={transaction._id}
+                                  transaction={transaction}
+                                />
+                              </>
+                            ))}
+                          </TableBody>
+                        }
+                      </Table>
+                    </TableContainer>
+                  ) : (
+                    <Typography align="center"> No Items Found.</Typography>
+                  )}
                 </CardContent>
               </Card>
             </Grid>
