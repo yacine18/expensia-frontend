@@ -32,7 +32,6 @@ const Home: NextPage = (props) => {
 
   const { state }: any = useContext(Store);
   const { userInfo } = state;
-  console.log(userInfo);
 
   const [loading, setLoading] = useState(true);
   const [transactions, setTransactions] = useState([]);
@@ -61,7 +60,7 @@ const Home: NextPage = (props) => {
           {loading ? (
             <CircularProgress />
           ) : (
-            <Grid item md={12}>
+            <Grid item md={12} xs={12}>
               <Button
                 onClick={() => router.push("/add-transaction")}
                 className={classes.addButton}
