@@ -17,11 +17,12 @@ import {
 import axios from "axios";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Balance from "../components/Balance";
 import IncomeExpense from "../components/IncomeExpense";
 import Layout from "../components/Layout";
 import Transaction from "../components/Transaction";
+import { Store } from "../utils/store";
 import { useStyles } from "../utils/styles";
 
 const Home: NextPage = (props) => {
@@ -29,12 +30,19 @@ const Home: NextPage = (props) => {
   const classes = useStyles();
   const router = useRouter();
 
+  const { state }:any = useContext(Store);
+  const { userInfo } = state;
+  console.log(userInfo)
+
   const [loading, setLoading] = useState(true);
   const [transactions, setTransactions] = useState([]);
   useEffect(() => {
+    if (!userInfo) {
+      router.push("/login");
+    }
     setTransactions(data);
     setLoading(false);
-  }, [data]);
+  }, [data, router, userInfo]);
   return (
     <Layout title="Dashboard">
       <div>
@@ -101,7 +109,9 @@ const Home: NextPage = (props) => {
 export default Home;
 
 export async function getServerSideProps() {
-  const { data } = await axios.get("https://expensia-backend.herokuapp.com/api/transactions");
+  const { data } = await axios.get(
+    "https://expensia-backend.herokuapp.com/api/transactions"
+  );
   return {
     props: {
       data,

@@ -1,21 +1,56 @@
 import { Button, Link, List, ListItem, TextField, Typography } from "@material-ui/core";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Layout from "../components/Layout";
 import NextLink from "next/link"
 import { Controller, useForm } from "react-hook-form";
 import { useStyles } from "../utils/styles";
 import dynamic from "next/dynamic";
+import axios from "axios";
+import { Store } from "../utils/store";
+import Cookies from "js-cookie";
+import { useSnackbar } from "notistack";
+import { useRouter } from "next/router";
 
 const LoginScreen = () => {
     const classes = useStyles()
+    const router = useRouter()
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const loginSubmitHandler = ({email, password}: any) => {
-    console.log(email, password);
+  const {state, dispatch}: any = useContext(Store)
+  const {userInfo} = state
+
+  const {enqueueSnackbar, closeSnackbar} = useSnackbar()
+
+  useEffect(() => {
+    if(userInfo) {
+      router.push("/")
+    }
+  }, [router, userInfo])
+
+  const loginSubmitHandler = async({email, password}: any) => {
+    closeSnackbar()
+    try {
+      const { data } = await axios.post(
+        "https://expensia-backend.herokuapp.com/api/auth/signin",
+        {
+          email,
+          password,
+        }
+      );
+      dispatch({type: "USER_LOGIN", payload: data})
+      Cookies.set("userInfo", JSON.stringify(data))
+    } catch (err: any) {
+      enqueueSnackbar(
+        err.response && err.response.data && err.response.data.message
+          ? err.response.data.message
+          : err.message,
+        { variant: "error" }
+      );
+    }
   };
   return (
     <Layout title="Login">

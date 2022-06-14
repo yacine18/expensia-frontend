@@ -35,4 +35,8 @@ export const useStyles = makeStyles({
   addButton: {
     marginBottom: 15,
   },
+  navButton: {
+    color: "#ffffff",
+    textTransform: "initial"
+  },
 });

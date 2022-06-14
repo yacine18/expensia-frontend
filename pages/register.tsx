@@ -1,26 +1,72 @@
-import { Button, Link, List, ListItem, TextField, Typography } from "@material-ui/core";
-import React from "react";
+import {
+  Button,
+  Link,
+  List,
+  ListItem,
+  TextField,
+  Typography,
+} from "@material-ui/core";
+import React, { useContext, useEffect } from "react";
 import Layout from "../components/Layout";
-import NextLink from "next/link"
+import NextLink from "next/link";
 import { Controller, useForm } from "react-hook-form";
 import { useStyles } from "../utils/styles";
 import dynamic from "next/dynamic";
-
+import { Store } from "../utils/store";
+import { useRouter } from "next/router";
+import { useSnackbar } from "notistack";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const RegisterScreen = () => {
-    const classes = useStyles()
+  const classes = useStyles();
+  const router = useRouter();
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const registerSubmitHandler = ({name, email, password}: any) => {
-    console.log(name, email, password);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  const { state, dispatch }: any = useContext(Store);
+  const { userInfo } = state;
+
+  useEffect(() => {
+    if (userInfo) {
+      router.push("/");
+    }
+  }, [router, userInfo]);
+
+  const registerSubmitHandler = async ({ name, email, password }: any) => {
+    closeSnackbar()
+    try {
+      const { data } = await axios.post(
+        "https://expensia-backend.herokuapp.com/api/auth/signup",
+        {
+          name,
+          email,
+          password,
+        }
+      );
+      dispatch({type: "USER_LOGIN", payload: data})
+      Cookies.set("userInfo", JSON.stringify(data))
+      enqueueSnackbar(data.message, {variant: "success"})
+    } catch (err: any) {
+      enqueueSnackbar(
+        err.response && err.response.data && err.response.data.message
+          ? err.response.data.message
+          : err.message,
+        { variant: "error" }
+      );
+    }
   };
   return (
     <Layout title="Register">
-      <form onSubmit={handleSubmit(registerSubmitHandler)} className={classes.form}>
+      <form
+        onSubmit={handleSubmit(registerSubmitHandler)}
+        className={classes.form}
+      >
         <Typography component="h1" variant="h1">
           Create account
         </Typography>
